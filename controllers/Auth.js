@@ -3,11 +3,10 @@ const OTP = require("../models/OTP");
 const otpGenerator = require("otp-generator");
 
 // send otp
-
 exports.sendOTP = async (req, res) => {
   try {
-    // fetch user email from body
 
+    // fetch user email from body
     const { email } = req.body;
 
     // check if user is exists or not
@@ -32,6 +31,8 @@ exports.sendOTP = async (req, res) => {
     console.log("otp", otp);
 
     // check otp is unique or not
+    // but it is code check every time otp so db call is high 
+    // find a library to generate unique otp
     const result = await OTP.findOne({ otp: otp });
 
     // if otp is unique
@@ -45,6 +46,10 @@ exports.sendOTP = async (req, res) => {
       result = await OTP.findOne({ otp: otp });
     }
   } catch (error) {
-    console.log(error);
+    console.log("Error in generating OTP", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };

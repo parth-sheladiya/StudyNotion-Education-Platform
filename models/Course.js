@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-
+// course schema
 const courseSchema =  new mongoose.Schema({
 
     courseSchema:{
